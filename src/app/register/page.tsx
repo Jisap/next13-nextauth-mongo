@@ -3,6 +3,8 @@
 import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
+import { signIn } from 'next-auth/react';
+
 
 const RegisterPage = () => {
 
@@ -13,12 +15,22 @@ const RegisterPage = () => {
     event.preventDefault();
 
     try {
-      const formData = new FormData(event.currentTarget);
-      const signupResponse = await axios.post("/api/auth/signup", {
+      const formData = new FormData(event.currentTarget);             // Data del formulario
+
+      const signupResponse = await axios.post("/api/auth/signup", {   // Grabamos usuario en BD
         email: formData.get("email"),
         password: formData.get("password"),
         fullname: formData.get("fullname"),
       });
+
+      const res = await signIn('credentials', {                       // Comprobación de las credenciales segun [...nextauth]
+        email: signupResponse.data.email,
+        password: formData.get("password"),
+        redirect: false,
+      });
+
+      if(res?.ok) return router.push("/dashboard");                   // Redirección a donde queramos 
+
     } catch (error) {
       console.log(error);
       if (error instanceof AxiosError) {
