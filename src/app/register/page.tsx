@@ -29,7 +29,7 @@ const RegisterPage = () => {
         redirect: false,
       });
 
-      if(res?.ok) return router.push("/dashboard");                   // Redirección a donde queramos 
+      if(res?.ok) return router.push("/dashboard/profile");                   // Redirección a donde queramos 
 
     } catch (error) {
       console.log(error);
@@ -49,7 +49,7 @@ const RegisterPage = () => {
       >
         {error && <div className="bg-red-500 text-white p-2 mb-2">{error}</div>}
 
-        <h1 className="text-4xl font-bold mb-7">Signup</h1>
+        <h1 className="text-4xl font-bold mb-7 text-white">Signup</h1>
 
         <label className="text-slate-300">Fullname:</label>
         <input 

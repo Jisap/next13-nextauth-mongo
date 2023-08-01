@@ -32,12 +32,12 @@ const handler = NextAuth({
         }),
     ],
     callbacks:{                                                     // Una vez autorizado (logueado)
-        jwt({account,token,user,profile,session}){                  // NextAuth nos devuelve en un jwt esta información
+        jwt({account,token,user,profile,session}){                  // NextAuth nos devuelve en un jwt este esquema de información, parte lleno parte vacio
             if (user) token.user = user                             // Si el usuario existe nosotros le incorporamos la info del user logueado                                                 
             return token;                                           // Este token se almacena en una cookie y se usa en las páginas para dar o no acceso
         },
         session({session,token}){ // session es la información del user logueado, token la info del jwt leida desde la cookie
-            session.user = token.user as any;
+            session.user = token.user as any; // Actualizamos en la session la info del user logueado
             return session
         }
     },
